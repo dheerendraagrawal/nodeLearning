@@ -8,6 +8,7 @@ const xss = require('xss-clean');
 const hpp = require('hpp');
 //Parse all cookies coming in request
 const cookieParser = require('cookie-parser');
+const compression = require('compression');
 
 const tourRouter = require('./routes/tourRoutes');
 const userRouter = require('./routes/userRoutes');
@@ -90,6 +91,8 @@ app.use(express.static(path.join(__dirname, 'public')));
             'difficulty'
         ]
     }));
+
+    app.use(compression());
 
 //Serving static  Files
 // allow us to use static files

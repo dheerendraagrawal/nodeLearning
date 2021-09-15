@@ -49,7 +49,7 @@ exports.uploadUserPhoto = upload.single('photo');
 
 exports.resizeUserPhoto = catchAscync( async (req, res, next) => {
     if(!req.file) return next();
-    console.log(req.file);
+    // console.log(req.file);
     req.file.filename = `user-${req.user.id}-${Date.now()}.jpeg`; // as we are converting img to jpeg so keeping it static
 
     // Image processing

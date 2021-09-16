@@ -92,11 +92,12 @@ exports.webhookCheckout = (req, res, next) => {
     if (event.type === 'checkout.session.completed') {
         // calling local funciton to make database entry
         console.log('-----------------', 'Creating booking', '----------------');
-        try{
+        console.log(event.data.object);
+        // try{
             createBookingCheckout(event.data.object);
-        } catch(err) {
-            return res.status(400).json({ message: `Payment Sucess but Booking not created for Session Id: ${event.id}` });
-        } 
+        // } catch(err) {
+        //     return res.status(400).json({ message: `Payment Sucess but Booking not created for Session Id: ${event.id}` });
+        // } 
     }
 
     // sending back response to stripe for sucess

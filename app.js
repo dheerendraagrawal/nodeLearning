@@ -19,6 +19,7 @@ const tourRouter = require('./routes/tourRoutes');
 const userRouter = require('./routes/userRoutes');
 const reviewRouter = require('./routes/reviewRoutes');
 const bookingRouter = require('./routes/bookingRoutes');
+const bookingController = require('./controllers/bookingController');
 const viewRouter = require('./routes/viewRoutes');
 
 const AppError = require('./utils/appError');
@@ -84,6 +85,10 @@ app.use(express.static(path.join(__dirname, 'public')));
         message: 'Too many requests from this IP, please try again in an hour'
     });
     app.use('/api', limiter);
+
+    // strpie redirects with raw data and stripe in local uses / processes raw data so before converting to json from next middleware we want to just process
+    // body parser from raw to json
+    app.post('/webhook-checkout', express.raw({ type: 'application/json' }), bookingController.webhookCheckout);
 
 // Body parser, reading data from body into req.body
 //inbuilt middleware

@@ -6,7 +6,10 @@ const bookingController = require('./../controllers/bookingController');
 const router = express.Router();
 
 
-router.get('/',bookingController.createBookingCheckout,authController.isLoggedIn, viewController.getOverview);
+router.get('/'
+// ,bookingController.createBookingCheckout // commenting this middleware as this is unsecure implementation of stripe without webhooks
+,authController.isLoggedIn
+, viewController.getOverview);
 router.get('/tour/:slug', authController.isLoggedIn,viewController.getTour);
 
 router.get('/login', authController.isLoggedIn,viewController.getLoginForm);

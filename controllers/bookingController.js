@@ -14,14 +14,14 @@ const createBookingCheckout = async session => {
 
     console.log('-----------tour----------------------');
 
-    let user = (await User.find({ email: session.customer_email }))._id;
+    let user = await User.find({ email: session.customer_email });
     console.log('-----------user----------------------');
 
     const price = session.amount_total; // 'display_items key name kept as session response from stripe'
 
     console.log('-----------price----------------------');
 
-    console.log('-----------', tour, user, price , '----------------------');
+    console.log('-----------', tour, user, user._id, price , '----------------------');
 
     await Booking.create({tour, user, price});
     

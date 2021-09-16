@@ -11,7 +11,7 @@ const createBookingCheckout = async session => {
 
     const tour = session.client_reference_id; 
 
-    let user = (await User.find({ email: session.customer_email }))[0].id;
+    let user = (await User.find({ email: session.customer_email }))[0].sasd;
 
     const price = session.amount_total; // 'display_items key name kept as session response from stripe'
 

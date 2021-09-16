@@ -11,11 +11,11 @@ const createBookingCheckout = async session => {
 
     const tour = session.client_reference_id; 
 
-    let user = (await User.find({ email: session.customer_email }))[0]._id;
+    let user = (await User.find({ email: session.customer_email }))[0].id;
 
     const price = session.amount_total; // 'display_items key name kept as session response from stripe'
 
-    console.log(await Booking.create({tour, price}));
+    await Booking.create({tour, user, price});
     
 };
 
@@ -85,11 +85,11 @@ exports.webhookCheckout = (req, res, next) => {
 
     if (event.type === 'checkout.session.completed') {
         // calling local funciton to make database entry
-        // try{
+        try{
             createBookingCheckout(event.data.object);
-        // } catch(err) {
-        //     return res.status(400).json({ message: `Payment Sucess but Booking not created for Session Id: ${event.id}` });
-        // } 
+        } catch(err) {
+            return res.status(400).send({ message: `Payment Sucess but Booking not created for Session Id: ${event.id}` });
+        } 
     }
 
     // sending back response to stripe for sucess

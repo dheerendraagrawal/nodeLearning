@@ -15,7 +15,7 @@ const createBookingCheckout = async session => {
 
     const price = session.amount_total; // 'display_items key name kept as session response from stripe'
 
-    await Booking.create({tour, user, price});
+    console.log(await Booking.create({tour, price}));
     
 };
 
@@ -85,8 +85,6 @@ exports.webhookCheckout = (req, res, next) => {
 
     if (event.type === 'checkout.session.completed') {
         // calling local funciton to make database entry
-        console.log('-----------------', 'Creating booking', '----------------');
-        console.log(event.data.object);
         // try{
             createBookingCheckout(event.data.object);
         // } catch(err) {

@@ -53,17 +53,17 @@ app.use(express.static(path.join(__dirname, 'public')));
     app.use(helmet()); // helmet contains many middleware functions, some of them are active by default, we can make other active by refering documentation in git
     
     // Added for cross domain policies altered
-    app.use(
-        helmet.contentSecurityPolicy({
-          useDefaults: true,
-          directives: {
-            "default-src": ["'self'", "https://*.mapbox.com", "ws:","https://*.stripe.com"],
-            "script-src": ["'self'", "https://*.mapbox.com", "https://*.cloudflare.com", "https://*.googleapis.com", "https://*.stripe.com"],
-            "style-src": ["'self'" , "https://*.googleapis.com", "https: 'unsafe-inline'"],
-            "worker-src": ["'self'", "blob:"]
-          },
-        })
-      );
+    // app.use(
+    //     helmet.contentSecurityPolicy({
+    //       useDefaults: true,
+    //       directives: {
+    //         "default-src": ["'self'", "https://*.mapbox.com", "ws:","https://*.stripe.com"],
+    //         "script-src": ["'self'", "https://*.mapbox.com", "https://*.cloudflare.com", "https://*.googleapis.com", "https://*.stripe.com"],
+    //         "style-src": ["'self'" , "https://*.googleapis.com", "https: 'unsafe-inline'"],
+    //         "worker-src": ["'self'", "blob:"]
+    //       },
+    //     })
+    //   );
 
 
 // DEVELopment logging

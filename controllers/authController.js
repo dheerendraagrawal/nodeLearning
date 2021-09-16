@@ -267,3 +267,5 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
 
     createAndSendTOken(user, 200,req, res);
 });
+
+// Adding this temporary comment

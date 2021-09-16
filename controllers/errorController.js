@@ -71,7 +71,7 @@ const sendErrProduction = (err,req, res) => {
     }
     //  1 Log Error
 
-    console.log('ERROR', err);
+    console.log('ERROR : ', err);
 
     //2 Send generic message
     res.status(err.statusCode).render('error', {

@@ -9,6 +9,7 @@ const hpp = require('hpp');
 //Parse all cookies coming in request
 const cookieParser = require('cookie-parser');
 const compression = require('compression');
+// const cors = require('cors');
 
 // Heroku Dyno is a container which runs our app and restarts every 24 hours to keep our app healthy
 // Heroku specific config
@@ -31,6 +32,8 @@ app.enable('trust proxy');
 app.set('view engine', 'pug'); // telling app to use this view engine
 app.set('views', path.join(__dirname, 'views'));
 
+// app.use(cors());
+
 
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -43,7 +46,7 @@ app.use(express.static(path.join(__dirname, 'public')));
         helmet.contentSecurityPolicy({
           useDefaults: true,
           directives: {
-            "default-src": ["'self'", "https://*.mapbox.com", "ws:", "http://127.0.0.1:3000","https://*.stripe.com"],
+            "default-src": ["'self'", "https://*.mapbox.com", "ws:","https://*.stripe.com"],
             "script-src": ["'self'", "https://*.mapbox.com", "https://*.cloudflare.com", "https://*.googleapis.com", "https://*.stripe.com"],
             "style-src": ["'self'" , "https://*.googleapis.com", "https: 'unsafe-inline'"],
             "worker-src": ["'self'", "blob:"]

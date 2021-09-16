@@ -14,7 +14,7 @@ const createBookingCheckout = async session => {
 
     console.log('-----------tour----------------------');
 
-    const user = (await User.find({ email: session.customer_email })).id;
+    let user = await User.find({ email: session.customer_email });
     console.log('-----------user----------------------');
 
     const price = session.amount_total; // 'display_items key name kept as session response from stripe'
@@ -23,7 +23,7 @@ const createBookingCheckout = async session => {
 
     console.log('-----------', tour, user, price , '----------------------');
 
-    await Booking.create({tour, user, price});
+    await Booking.create({tour, user: user.id, price});
     
 };
 

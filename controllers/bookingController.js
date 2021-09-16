@@ -68,7 +68,7 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
 //     res.redirect(req.originalUrl.split('?')[0]);
 // });
 
-exports.webhookCheckout = (req, res, next) => {
+exports.webhookCheckout = async (req, res, next) => {
     // reading data sent by stripe web hook
     const signature = req.headers['stripe-signature'];
     let event;
@@ -86,7 +86,7 @@ exports.webhookCheckout = (req, res, next) => {
     if (event.type === 'checkout.session.completed') {
         // calling local funciton to make database entry
         try{
-            createBookingCheckout(event.data.object);
+            await createBookingCheckout(event.data.object);
         } catch(err) {
             return res.status(400).send({ message: `Payment Sucess but Booking not created for Session Id: ${event.id}` });
         } 

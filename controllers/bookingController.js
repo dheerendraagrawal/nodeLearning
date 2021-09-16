@@ -34,7 +34,7 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
         success_url: `${req.protocol}://${req.get('host')}/my-tours`,
         cancel_url: `${req.protocol}://${req.get('host')}/tour/${tour.slug}`,
         customer_email: req.user.email,
-        client_reference_id: req.params.tourID, // passing tour id so it can be used in webhook callback function
+        client_reference_id: req.params.tourId, // passing tour id so it can be used in webhook callback function
         line_items: [
             {
                 name: `${tour.name} Tour`,

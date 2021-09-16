@@ -14,7 +14,7 @@ const signToken = id => {
     });
 }
 
-const createAndSendTOken = (user, statusCode, res) => {
+const createAndSendTOken = (user, statusCode, req, res) => {
     const token = signToken(user._id);
 
     const cookiesOptions = {
@@ -22,9 +22,16 @@ const createAndSendTOken = (user, statusCode, res) => {
         httpOnly: true
     };
 
-    if(process.env.NODE_ENV === 'production') {
-        cookiesOptions.secure = true;
-    }
+    // Replacing below assignment in new if condition
+    // if(process.env.NODE_ENV === 'production') {
+    //     cookiesOptions.secure = true;
+    // }
+
+    // req.headers('x-forwarded-proto') kept for heroku particularly
+    // checking if connection is secure so making cookies secure as well
+    if(req.secure || req.headers('x-forwarded-proto') === 'https') {
+            cookiesOptions.secure = true;
+        }
     
     res.cookie('jwt', token, cookiesOptions);
 
@@ -55,7 +62,7 @@ exports.signup = catchAsync(async (req, res, next) => {
     // console.log(url);
     await new Email(newUser, url).sendWelcome();
 
-    createAndSendTOken(newUser, 201, res);
+    createAndSendTOken(newUser, 201,req, res);
    
 });
 
@@ -83,7 +90,7 @@ exports.login = catchAsync(async (req, res, next) => {
     //     token
     // });
 
-    createAndSendTOken(user, 200, res);
+    createAndSendTOken(user, 200,req, res);
 
 });
 
@@ -234,7 +241,7 @@ exports.resetPassword = catchAsync(async(req, res, next) => {
     //     token
     // });
 
-    createAndSendTOken(user, 200, res);
+    createAndSendTOken(user, 200,req, res);
 });
 
 exports.updatePassword = catchAsync(async (req, res, next) => {
@@ -258,5 +265,5 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
 
     // log user in send jwt
 
-    createAndSendTOken(user, 200, res);
+    createAndSendTOken(user, 200,req, res);
 });

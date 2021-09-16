@@ -41,3 +41,14 @@ process.on('unhandledRejection', err => {
     // process.exit(1); // this will end existing request in between
 });
 
+// SIGTERM signal handling
+
+// Heroku Dyno is a container which runs our app and restarts every 24 hours to keep our app healthy
+// Heroku specific config
+// Signterm -> initiation by heroku to terminate app... so req in between will be not processed, to over come this, here is the way
+process.on('SIGTERM', () => {
+    console.log('SIGHTERM RECIEVED, SHUTTING DOWN RGRACEFULLY');
+    server.close(() => {
+        console.log('Process Terminated');
+    });
+});

@@ -10,6 +10,10 @@ const hpp = require('hpp');
 const cookieParser = require('cookie-parser');
 const compression = require('compression');
 
+// Heroku Dyno is a container which runs our app and restarts every 24 hours to keep our app healthy
+// Heroku specific config
+// Signterm -> initiation by heroku to terminate app... so req in between will be not processed, to over come this, here is the way
+
 const tourRouter = require('./routes/tourRoutes');
 const userRouter = require('./routes/userRoutes');
 const reviewRouter = require('./routes/reviewRoutes');
@@ -20,6 +24,9 @@ const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
 
 const app = express();
+
+// for enviroment like heroku which redirects request for internal proxy
+app.enable('trust proxy');
 
 app.set('view engine', 'pug'); // telling app to use this view engine
 app.set('views', path.join(__dirname, 'views'));

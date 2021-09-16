@@ -5,6 +5,7 @@ const bookingController = require('./../controllers/bookingController');
 
 const router = express.Router();
 
+router.use(viewController.alerts);
 
 router.get('/'
 // ,bookingController.createBookingCheckout // commenting this middleware as this is unsecure implementation of stripe without webhooks

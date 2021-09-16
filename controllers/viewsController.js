@@ -80,3 +80,13 @@ exports.getMyTours = catchAsync(async (req, res, next) => {
         tours
     });
 });
+
+exports.alerts = (req, res, next) => {
+    const { alert } = req.query;
+
+    if(alert === 'booking') {
+        res.locals.alert = 'Your booking was sucessfull, please check your email. If your booking doesnt show here immediately, please come back later'
+    }
+    
+    next();
+}

@@ -22,7 +22,8 @@ const createBookingCheckout = async session => {
     console.log('-----------price----------------------');
 
     await Booking.create({tour, user, price});
-}
+    
+};
 
 exports.getCheckoutSession = catchAsync(async (req, res, next) => {
 
@@ -91,7 +92,11 @@ exports.webhookCheckout = (req, res, next) => {
     if (event.type === 'checkout.session.completed') {
         // calling local funciton to make database entry
         console.log('-----------------', 'Creating booking', '----------------');
-        createBookingCheckout(event.data.object);
+        try{
+            createBookingCheckout(event.data.object, res);
+        } catch(err) {
+            return res.status(400).send(`Webhook error: ${err.message}`);
+        } 
     }
 
     // sending back response to stripe for sucess

@@ -9,7 +9,7 @@ const hpp = require('hpp');
 //Parse all cookies coming in request
 const cookieParser = require('cookie-parser');
 const compression = require('compression');
-// const cors = require('cors');
+const cors = require('cors');
 
 // Heroku Dyno is a container which runs our app and restarts every 24 hours to keep our app healthy
 // Heroku specific config
@@ -32,8 +32,19 @@ app.enable('trust proxy');
 app.set('view engine', 'pug'); // telling app to use this view engine
 app.set('views', path.join(__dirname, 'views'));
 
-// app.use(cors());
+// Allowing cors for all routes.. we can specifically also define cors()
+// allow only simple request like get 
+app.use(cors());
+    // Access-Control-Allow-Origin *
+    // back-end api.natours.com, front-end natours.com
+// app.use(cors({
+//     origin: 'https://www.natours.com'
+// }));
 
+// for handling request which are in pre-flight phase, sent by browser when non simple requests made
+app.options('*', cors());
+// only this particular route non-simple requests will be accepted
+// app.options('api/v1/tours/:id', cors());
 
 app.use(express.static(path.join(__dirname, 'public')));
 

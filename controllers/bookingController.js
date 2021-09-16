@@ -13,7 +13,7 @@ const createBookingCheckout = async session => {
 
     const user = (await User.find({ email: session.customer_email })).id;
 
-    const price = session.line_items[0].amount;
+    const price = session.display_items[0].amount; // 'display_items key name kept as session response from stripe'
 
     await Booking.create({tour, user, price});
 }
@@ -37,7 +37,7 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
             {
                 name: `${tour.name} Tour`,
                 description: tour.summary,
-                images: [`https://www.natours.dev/img/tours/tour-1-cover.jpg`],
+                images: [`${req.protocol}://${req.get('host')}/img/tours/tour-1-cover.jpg`],
                 amount: tour.price * 70,
                 currency: 'inr',
                 quantity: 1

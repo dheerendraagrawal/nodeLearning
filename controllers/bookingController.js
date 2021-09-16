@@ -9,8 +9,8 @@ const factory = require('./handlerFactory');
 
 const createBookingCheckout = async session => {
 
-    console.log('-----------', tour, user, price , '----------------------');
-    const tour = session.client_reference_id;
+    console.log('---------------------------------');
+    const tour = session.client_reference_id; 
 
     console.log('-----------tour----------------------');
 
@@ -20,6 +20,8 @@ const createBookingCheckout = async session => {
     const price = session.amount_total; // 'display_items key name kept as session response from stripe'
 
     console.log('-----------price----------------------');
+
+    console.log('-----------', tour, user, price , '----------------------');
 
     await Booking.create({tour, user, price});
     

@@ -17,7 +17,7 @@ const createBookingCheckout = async session => {
     const user = (await User.find({ email: session.customer_email })).id;
     console.log('-----------user----------------------');
 
-    const price = session.display_items[0].amount; // 'display_items key name kept as session response from stripe'
+    const price = session.amount_total; // 'display_items key name kept as session response from stripe'
 
     console.log('-----------price----------------------');
 
@@ -93,9 +93,9 @@ exports.webhookCheckout = (req, res, next) => {
         // calling local funciton to make database entry
         console.log('-----------------', 'Creating booking', '----------------');
         try{
-            createBookingCheckout(event.data.object, res);
+            createBookingCheckout(event.data.object);
         } catch(err) {
-            return res.status(400).send(`Webhook error: ${err.message}`);
+            return res.status(400).json({ message: `Payment Sucess but Booking not created for Session Id: ${event.id}` });
         } 
     }
 
